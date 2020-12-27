@@ -10,14 +10,14 @@ mvn spring-boot:run
 * Extract the password from the console:
 
 ```shell script
-Using generated security password: c0142163-67e8-46bf-bb63-ff49746c8f99
+Using configured security password ==> password
 ```
 
 * Setting environment variables:
 
 ```shell script
-export USER=user
-export PASSWORD=8deb19c3-d482-404d-b44c-05565f5ad9b2 # change this value accordingly, DO NOT COPY PASTE
+export USER=eum602
+export PASSWORD=password # change this value accordingly, DO NOT COPY PASTE
 ```
 
 * Extract message from hello controller with http ==> **comment** the following lines in application.propereties:
@@ -69,4 +69,14 @@ Update the password in src/main/resources/application.properties and uncomment t
 server.ssl.key-store-type=PKCS12
 server.ssl.key-store=certificate.p12
 server.ssl.key-store-password=12345678 #Update this password, do not copy-paste
+```
+
+## Accessing the hello controller
+
+```shell script
+curl -k -H "Authorization: Basic $encoded" https://localhost:8080/hello
+```
+
+```shell script
+curl -k -u $USER:$PASSWORD https://localhost:8080/hello 
 ```
