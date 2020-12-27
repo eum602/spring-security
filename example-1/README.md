@@ -13,11 +13,16 @@ mvn spring-boot:run
 Using generated security password: c0142163-67e8-46bf-bb63-ff49746c8f99
 ```
 
+* Setting environment variables:
+
+```shell script
+export USER=user
+export PASSWORD=c0142163-67e8-46bf-bb63-ff49746c8f99 # change this value accordingly, DO NOT COPY PASTE
+```
+
 * Extract message from hello controller with:
 
 ```shell script
-USER=user
-PASSWORD=c0142163-67e8-46bf-bb63-ff49746c8f99 # change this value accordingly, DO NOT COPY PASTE
 curl -u $USER:$PASSWORD http://localhost:8080/hello # Should obtain "hello"
 ```
 
@@ -34,3 +39,14 @@ curl http://localhost:8080/hello # should obtain ==>
   "path": "/hello"
 }
 ```
+
+* Authenticating using a header:
+
+```shell script
+encoded=`echo -n $USER:$PASSWORD | base64`
+``` 
+
+```shell script
+curl -H "Authorization: Basic $encoded" localhost:8080/hello
+```
+
