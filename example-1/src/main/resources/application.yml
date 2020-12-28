@@ -1,0 +1,14 @@
+server:
+  ssl.key-store-type: PKCS12
+  ssl.key-store: certificate.p12
+  ssl.key-store-password: 12345678
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/springbootjpa"
+    username: jpatutorial
+    password: password
