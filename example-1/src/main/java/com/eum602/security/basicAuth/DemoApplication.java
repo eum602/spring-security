@@ -1,14 +1,12 @@
 package com.eum602.security.basicAuth;
 
-import com.eum602.security.basicAuth.DAO.Kayak;
-import com.eum602.security.basicAuth.jpa.KayakRepository;
+import com.eum602.security.basicAuth.DAO.User;
+import com.eum602.security.basicAuth.jpa.UserRepository;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -20,31 +18,22 @@ public class DemoApplication {
 
 	// This tells Hibernate to make a table out of this class
 	@Bean
-	ApplicationRunner init(KayakRepository repository) {
-
+	ApplicationRunner init(UserRepository repository){
 		String[][] data = {
-				{"sea", "Andrew", "300.12", "NDK"},
-				{"creek", "Andrew", "100.75", "Piranha"},
-				{"loaner", "Andrew", "75", "Necky"}
+				{"eum602","password","read","1"},
+				{"r2d2","password","write","1"},
+				{"john","12345","write","1"}
 		};
-
 		return args -> {
-			Stream.of(data).forEach(array -> {
+			Stream.of(data).forEach(array->{
 				try {
-					Kayak kayak = new Kayak(
-							array[0],
-							array[1],
-							NumberFormat.getInstance().parse(array[2]),
-							array[3]
-					);
-					repository.save(kayak);
-				}
-				catch ( ParseException e) {
+					User user = new User(array[0],array[1],array[2],Integer.parseInt(array[3]));
+					repository.save(user);
+				}catch (Exception e){
 					e.printStackTrace();
 				}
 			});
 			repository.findAll().forEach(System.out::println);
 		};
 	}
-
 }
