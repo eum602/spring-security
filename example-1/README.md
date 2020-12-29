@@ -1,6 +1,24 @@
 # Basic Spring Security
 
-## Use
+## Previous configuration
+
+### Postgres configuration
+
+1. Start postgres entities
+```shell
+$ cd postgres-entities
+$ docker-compose up
+```
+2. Optionally you can enter the docker to check "users" table which will be created once spring is started:
+```shell
+$ docker exec -it your_docker_id sh
+$ psql -h localhost -p 5432 -U jpatutorial -d springbootjpa
+$ \c
+$ \dt
+$ SELECT * FROM users;
+```
+
+## How to Use
 
 * Start the application
 ```shell script
@@ -79,4 +97,10 @@ curl -k -H "Authorization: Basic $encoded" https://localhost:8080/hello
 
 ```shell script
 curl -k -u $USER:$PASSWORD https://localhost:8080/hello 
+```
+
+## Accessing the database information:
+
+```shell script
+curl -k -u $USER:$PASSWORD https://localhost:8080/users #only an example, this enpoint should NOT be exposed
 ```
