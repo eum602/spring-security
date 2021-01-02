@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.encrypt.BytesEncryptor;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
 
@@ -23,6 +24,7 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 		checkBytesEncryption();
+		checkStringEncryption();
 	}
 
 	// This tells Hibernate to make a table out of this class
@@ -47,6 +49,8 @@ public class DemoApplication {
 	}
 
 	public static void checkBytesEncryption(){
+		logger.info("*********************************************************************");
+		logger.info("****************************Bytes Encryption*************************");
 		StringKeyGenerator keyGenerator = KeyGenerators.string();
 		String salt = keyGenerator.generateKey();
 		String password = "password";
@@ -62,5 +66,24 @@ public class DemoApplication {
 		String decryptedString = new String(decrypted);
 		logger.info("Decrypted plain text: " + decryptedString);
 		logger.info("plain == Decrypted? " + decryptedString.equals(valueToEncrypt));
+		logger.info("*********************************************************************");
+	}
+	public static void checkStringEncryption(){
+		logger.info("*********************************************************************");
+		logger.info("***************************String Encryption*************************");
+		String salt = KeyGenerators.string().generateKey();
+		String password = "password";
+		String valueToEncrypt = "Some confidential text";
+
+		TextEncryptor encryptor = Encryptors.queryableText(password,salt);
+		String encrypted = encryptor.encrypt(valueToEncrypt);
+		String decrypted = encryptor.decrypt(encrypted);
+		logger.info("Plain text: " + valueToEncrypt);
+		logger.info("Salt: " + salt);
+		logger.info("password: " + password);
+		logger.info("Encrypted: " + encrypted);
+		logger.info("Decrypted: " + decrypted);
+		logger.info("plain == Decrypted? " + decrypted.equals(valueToEncrypt));
+		logger.info("*********************************************************************");
 	}
 }
