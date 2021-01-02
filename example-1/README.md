@@ -11,7 +11,7 @@
 
 1. Start postgres entities
 ```shell
-$ cd postgres-entities
+$ cd POSTGRES/postgres-entities
 $ docker-compose up
 ```
 2. Optionally you can enter the docker to check "users" table which will be created once spring is started:
