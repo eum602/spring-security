@@ -22,7 +22,7 @@ public class DemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
-		checkStandardEncryption();
+		checkBytesEncryption();
 	}
 
 	// This tells Hibernate to make a table out of this class
@@ -46,12 +46,12 @@ public class DemoApplication {
 		};
 	}
 
-	public static void checkStandardEncryption(){
+	public static void checkBytesEncryption(){
 		StringKeyGenerator keyGenerator = KeyGenerators.string();
 		String salt = keyGenerator.generateKey();
 		String password = "password";
 		String valueToEncrypt = "Some confidential text";
-		BytesEncryptor e = Encryptors.standard(password,salt);
+		BytesEncryptor e = Encryptors.stronger(password,salt);
 		byte[] encrypted = e.encrypt(valueToEncrypt.getBytes()); //Uses CBC (cypher block chaining) -> not so secure
 		byte[] decrypted = e.decrypt(encrypted);
 		logger.info("Plain text: " + valueToEncrypt);
